@@ -1,0 +1,30 @@
+{
+  "process_type": "training",
+  "write_preprocessing_results": false,
+  "timeout": 200,
+  "callback_url": "http://localhost:8080/",
+  "params": {
+    "model_reference_id": "model_id_here",
+    "image_location": "~/dev/image_location",
+    "images": [
+      ["img1.png", 1],
+      ["img2.png", 1],
+      ["img2.png", 1],
+      ["img2.png", 1],
+      ["img2.png", 0],
+      ["img2.png", 0]
+    ],
+    "algo_class": "RandomForest",
+    "algo_config": {
+      "threshold": 20
+    },
+    "has_preprocessing": true,
+    "preprocessing": [
+      {
+        "id": "prproc1",
+        "name": "new_preproc",
+        "params": {}
+      }
+    ]
+  }
+}
