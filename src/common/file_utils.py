@@ -106,8 +106,8 @@ def download_s3_files(s3_path: str, images: List[Tuple[str, int]]) -> str:
 
     for img, _ in images:
         file_name = os.path.join(raw, img)
-        print(file_name)
-        # s3.download_file(bucket_name, full_path, file_name)
+        bucket_name, full_path, _ = extract_s3_path(s3_path)
+        s3.download_file(bucket_name, full_path, file_name)
 
     return folder
 

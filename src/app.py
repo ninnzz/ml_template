@@ -130,5 +130,9 @@ def main():
     # - Downloading all files first properly separates ML and file handling
     # - Better to check all files first before actually doing heavy process
 
-    print(process_config)
+    # NOTE:
+    # For conventional purpose, each true_path contains the following sub folders
+    # - raw contains the raw images
+    # - preprocessed contains the result of the preprocessing, this will be used instead of raw
+    # - result will contain the result of the process. For prediction, the images, for training, the model.
     true_path = check_images(process_config.image_location, process_config.images)
