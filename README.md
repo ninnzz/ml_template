@@ -1,4 +1,4 @@
-# ML Template
+# ML template for lazy people.
 
 This project serves as the basic boilerplate/template for small to intermediate ML apps. Basically I am too lazy to write everything from scratch so I just use this to get all the basic stuff going.
 
