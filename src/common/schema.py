@@ -3,16 +3,19 @@ Schema definition
 """
 import enum
 from typing import List, Tuple
-from pydantic import BaseModel, AnyHttpUrl
+
+from pydantic import AnyHttpUrl, BaseModel
 
 
 class Processes(str, enum.Enum):
     training = "training"
     prediction = "prediction"
+    auto_tuning = "auto_tuning"
 
 
 class PreprocessingConfig(BaseModel):
     """Preprocessing."""
+
     id: str
     name: str
     params: dict
@@ -22,12 +25,12 @@ class TrainingConfig(BaseModel):
     """Training."""
 
     model_reference_id: str
-    image_location: str                 # can be s3 or local
-    images: List[Tuple[str, int]]       # image keys and labels
-    algo_class: str                     # algorithm to use
+    image_location: str  # can be s3 or local
+    images: List[Tuple[str, int]]  # image keys and labels
+    algo_class: str  # algorithm to use
     algo_config: dict
     has_preprocessing: bool = False
-    preprocessing: List[PreprocessingConfig] | None     # Optional
+    preprocessing: List[PreprocessingConfig] | None  # Optional
 
 
 class Request(BaseModel):

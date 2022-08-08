@@ -28,6 +28,6 @@ poetry run python run.py
 - Pre-commit setup and other things *lazy people* don't want to do.
 - Basic unit tests
 
-That's all. What do you expect? 
+That's all. What do you expect?
 
 **It's just a glorified arrangement of folders with some functions for f's sake.**
