@@ -2,10 +2,10 @@
   "process_type": "training",
   "write_preprocessing_results": false,
   "timeout": 200,
-  "callback_url": "http://localhost:8080/",
+  "callback_url": "https://localhost:8000",
   "params": {
     "model_reference_id": "model_id_here",
-    "image_location": "s3://hacarus-ml-projects/testing-new-check-archi/",
+    "image_location": "/Users/ninz/dev/testing_images",
     "images": [
       ["t1.jpeg", 0],
       ["t2.jpeg", 1],
@@ -15,7 +15,7 @@
       ["t6.jpeg", 1],
       ["t7.jpeg", 1],
       ["t8.jpeg", 0],
-      ["t8.jpeg", 1]
+      ["t9.jpeg", 1]
     ],
     "algo_class": "RandomForest",
     "algo_config": {

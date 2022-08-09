@@ -103,13 +103,62 @@ def download_s3_files(s3_path: str, images: List[Tuple[str, int]]) -> str:
 
     # Initialize s3
     s3 = boto3.client("s3")
+    bucket_name, full_path, _ = extract_s3_path(s3_path)
 
     for img, _ in images:
         file_name = os.path.join(raw, img)
-        bucket_name, full_path, _ = extract_s3_path(s3_path)
-        s3.download_file(bucket_name, full_path, file_name)
-
+        s3.download_file(bucket_name, os.path.join(full_path, img), file_name)
     return folder
+
+
+def is_valid_images(path: str, images: List[Tuple[str, int]]) -> bool:
+    """
+    Checks if images are valid.
+
+    Parameters
+    ----------
+    path :
+    images :
+
+    Returns
+    -------
+    if all images are valid
+    """
+    print()
+
+
+def build_local_folder(path: str, images: List[Tuple[str, int]]) -> str:
+    """
+    Builds local image directory.
+
+    Parameters
+    ----------
+    path :
+    images :
+
+    Returns
+    -------
+    local path
+    """
+    if not os.path.isdir(path):
+        raise ValueError("Invalid directory for images!")
+
+    raw = os.path.join(path, "raw")
+    pre_processed = os.path.join(path, "preprocessed")
+    result = os.path.join(path, "result")
+
+    # Build folders
+    os.mkdir(raw)
+    os.mkdir(pre_processed)
+    os.mkdir(result)
+
+    for img, _ in images:
+        dest = os.path.join(raw, img)
+        src = os.path.join(path, img)
+        # Move all files to raw
+        os.rename(src, dest)
+
+    return path
 
 
 def check_images(path: str, images: List[Tuple[str, int]]) -> str:
@@ -129,10 +178,6 @@ def check_images(path: str, images: List[Tuple[str, int]]) -> str:
     if is_s3_file(path):
         path = download_s3_files(path, images)
     else:
-        if not os.path.isdir(path):
-            raise ValueError("Invalid directory for images!")
-
-        for img, _ in images:
-            print(img)
+        path = build_local_folder(path, images)
 
     return path

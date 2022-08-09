@@ -117,22 +117,46 @@ def main():
         request = read_csv(args.config_path)
         request_config, process_config = parse_request(request)
         logger.info(f"Reading config complete.")
-    except ValidationError as err:
+    except (ValidationError, ValueError) as err:
         logger.error("Error in validating config.")
         logger.error(err)
-
         # Uses some sort of closing stuff???
         return
-
-    # Reading the files and applying preprocessing
-    # Maybe download all files first?? Even for prediction??
-    # Pros
-    # - Downloading all files first properly separates ML and file handling
-    # - Better to check all files first before actually doing heavy process
+    except BaseException as err:
+        logger.error("Unknown error occurred!")
+        logger.error(err)
+        return
 
     # NOTE:
     # For conventional purpose, each true_path contains the following sub folders
     # - raw contains the raw images
     # - preprocessed contains the result of the preprocessing, this will be used instead of raw
     # - result will contain the result of the process. For prediction, the images, for training, the model.
-    true_path = check_images(process_config.image_location, process_config.images)
+    try:
+        logger.info(f"Checking images at: {process_config.image_location}")
+        true_path = check_images(process_config.image_location, process_config.images)
+    except ValueError as err:
+        logger.error("Error on checking files!")
+        logger.error(err)
+        return
+
+    # 1 read config
+    # 2 load the image file
+    # 3 if there is preprocessing, preprocess
+    # 4 perform pred/training
+
+    # Same as robo
+    # Can be an API (?) ~5 IMAGES MAX??
+    # download(img)
+    # preprocess(img)
+    # predict(img)
+    #
+    # OR
+
+    # Check cloud
+    # for img in images:
+    #     download()
+    #     preprocesses()
+    #     img_list.append(img)
+    #
+    # predict(img_list)
