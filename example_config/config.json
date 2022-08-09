@@ -2,10 +2,10 @@
   "process_type": "training",
   "write_preprocessing_results": false,
   "timeout": 200,
-  "callback_url": "https://localhost:8000",
+  "callback_url": "http://localhost:8080/",
   "params": {
     "model_reference_id": "model_id_here",
-    "image_location": "/Users/ninz/dev/testing_images",
+    "image_location": "s3://bucket/folder",
     "images": [
       ["t1.jpeg", 0],
       ["t2.jpeg", 1],
@@ -24,9 +24,11 @@
     "has_preprocessing": true,
     "preprocessing": [
       {
-        "id": "prproc1",
-        "name": "new_preproc",
-        "params": {}
+        "id": "rotate",
+        "name": "RotateImagePreprocess",
+        "params": {
+          "angle": 90
+        }
       }
     ]
   }

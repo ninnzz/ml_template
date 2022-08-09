@@ -1,6 +1,7 @@
 """App entry point."""
 import argparse
 import logging
+import os
 from typing import Tuple
 
 from pydantic import BaseModel
@@ -11,6 +12,7 @@ from src.common.file_utils import check_images
 from src.common.schema import Request, TrainingConfig
 from src.common.utils import read_csv
 from src.config import get_config
+from src.processes.preprocessing import get_pipeline, perform_preprocessing
 
 
 def parse_request(request_data: dict) -> Tuple[Request, TrainingConfig]:
@@ -138,7 +140,41 @@ def main():
     except ValueError as err:
         logger.error("Error on checking files!")
         logger.error(err)
+        # Callback
         return
+    except BaseException as err:
+        logger.error("Unknown error on file reading.")
+        logger.error(err)
+        # Callback
+        return
+
+    # Load preprocessing if there are any.
+    if process_config.has_preprocessing:
+        try:
+            logger.info(f"Starting image preprocessing.")
+            preprocess_pipeline = get_pipeline(process_config.preprocessing)
+
+            # Perform preprocessing on each image
+            perform_preprocessing(
+                img_path=os.path.join(true_path, "raw"),
+                output_path=os.path.join(true_path, "preprocessed"),
+                images=process_config.images,
+                pipeline=preprocess_pipeline,
+            )
+
+        except AttributeError as err:
+            logger.error("Invalid preprocessing found.")
+            logger.error(err)
+            # Callback
+            return
+        except BaseException as err:
+            logger.error("Error on preprocessing image")
+            logger.error(err)
+            # Callback
+            return
+
+    # Perform training/prediction here.
+    # Path of images is always at "true_path"
 
     # 1 read config
     # 2 load the image file
