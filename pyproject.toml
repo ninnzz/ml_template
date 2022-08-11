@@ -4,7 +4,6 @@ version = "0.1.0"
 description = "ML template for small-intermediate ML projects"
 authors = ["ninz <nreclarin@gmail.com>"]
 
-
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
 pydantic = "^1.9.1"
